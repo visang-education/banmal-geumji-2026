@@ -822,13 +822,12 @@
     namePreview.textContent = nameInput.value.trim() || '____________';
   });
 
-  // ─── Counter (localStorage) ──────────────────────────────────────────
-  let pledgeCount = parseInt(localStorage.getItem('pledgeCount') || '0', 10);
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxX1HXw3IHlT7_eDOsVuX1MhX6aDKYzOEEM5ZfNQSeIkBmPFR4s-LzEU-6xBfP2v8Wa/exec';
   const countEl = document.getElementById('pledge-count');
 
   function animateCount(target) {
-    let current = 0;
-    const step = Math.max(1, Math.floor(target / 40));
+    let current = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
+    const step = Math.max(1, Math.ceil(Math.abs(target - current) / 40));
     const timer = setInterval(() => {
       current = Math.min(current + step, target);
       countEl.textContent = current.toLocaleString();
@@ -836,10 +835,14 @@
     }, 40);
   }
 
-  animateCount(pledgeCount);
+  // 페이지 로드 시 실제 서약자 수 가져오기
+  fetch(SHEET_URL)
+    .then(r => r.json())
+    .then(data => animateCount(data.count || 0))
+    .catch(() => {});
 
   // ─── Submit pledge ───────────────────────────────────────────────────
-  function submitPledge() {
+  async function submitPledge() {
     const name = nameInput.value.trim();
     if (!name) {
       nameInput.focus();
@@ -848,15 +851,29 @@
       return;
     }
 
-    pledgeCount += 1;
-    localStorage.setItem('pledgeCount', pledgeCount);
+    const btn = document.getElementById('pledge-btn');
+    btn.disabled = true;
+    btn.textContent = '저장 중...';
 
-    document.getElementById('pledge-form-area').style.display = 'none';
-    const successEl = document.getElementById('pledge-success');
-    successEl.style.display = 'block';
-    document.getElementById('success-name').textContent = name;
+    const dept = document.getElementById('pledge-dept').value.trim();
 
-    animateCount(pledgeCount);
+    try {
+      const res = await fetch(SHEET_URL, {
+        method: 'POST',
+        body: JSON.stringify({ name, dept })
+      });
+      const data = await res.json();
+
+      document.getElementById('pledge-form-area').style.display = 'none';
+      document.getElementById('pledge-success').style.display = 'block';
+      document.getElementById('success-name').textContent = name;
+
+      animateCount(data.count || 0);
+    } catch(e) {
+      btn.disabled = false;
+      btn.textContent = '서약합니다 ✓';
+      alert('저장 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    }
   }
 
   // ─── Smooth scroll for anchor links ─────────────────────────────────
