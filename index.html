@@ -712,11 +712,18 @@
       filter: brightness(0.92);
       transform: translateX(-3px);
     }
+    .top-right-banner-pledge {
+      top: 178px;
+      background: #0e9f6e;
+      color: #fff;
+      box-shadow: -2px 4px 14px rgba(14,159,110,0.35);
+    }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
       section { padding: 4rem 1.2rem; }
       .top-right-banner { font-size: 0.75rem; padding: 0.45rem 0.9rem 0.45rem 1rem; top: 68px; }
+      .top-right-banner-pledge { top: 114px; }
     }
   </style>
 </head>
@@ -993,9 +1000,12 @@
 </section>
 
 
-<!-- TOP RIGHT BANNER -->
+<!-- TOP RIGHT BANNERS -->
 <a class="top-right-banner" href="#respect-request">
   ✉️ CP님 존댓말 부탁해요!
+</a>
+<a class="top-right-banner top-right-banner-pledge" href="#pledge">
+  ✍️ 실시간 서약자 수 총 <strong id="banner-count">0</strong>명
 </a>
 
 <!-- FOOTER -->
@@ -1051,8 +1061,10 @@
 
   const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxX1HXw3IHlT7_eDOsVuX1MhX6aDKYzOEEM5ZfNQSeIkBmPFR4s-LzEU-6xBfP2v8Wa/exec';
   const countEl = document.getElementById('pledge-count');
+  const bannerCountEl = document.getElementById('banner-count');
 
   function animateCount(target) {
+    if (bannerCountEl) bannerCountEl.textContent = target.toLocaleString();
     let current = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
     const step = Math.max(1, Math.ceil(Math.abs(target - current) / 40));
     const timer = setInterval(() => {
