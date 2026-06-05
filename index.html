@@ -223,6 +223,22 @@
     @media (max-width: 640px) {
       .cp-card { flex-direction: column; gap: 1.5rem; padding: 2rem; }
     }
+    .cp-avatar {
+      flex-shrink: 0;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--primary);
+      background: var(--border);
+      box-shadow: 0 0 0 4px rgba(26,86,219,0.12);
+    }
+    .cp-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
     .cp-body {}
     .cp-quote-mark {
       font-size: 4rem;
@@ -553,6 +569,9 @@
 <section id="cp-message">
   <div class="container">
     <div class="cp-card fade-in">
+      <div class="cp-avatar">
+        <img src="https://wimg.mk.co.kr/news/cms/202411/26/20241126_01110205000001_M00.jpg" alt="양태회 대표이사" />
+      </div>
       <div class="cp-body">
         <span class="cp-quote-mark">"</span>
         <p class="cp-message-text">
