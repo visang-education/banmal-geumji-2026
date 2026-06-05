@@ -758,6 +758,7 @@
         </div>
         <div class="pledge-input-wrap">
           <input class="pledge-input" type="text" id="pledge-name" placeholder="이름을 입력해 주세요" maxlength="20" />
+          <input class="pledge-input" type="text" inputmode="numeric" pattern="[0-9]*" id="pledge-empid" placeholder="사번을 입력해 주세요" maxlength="10" />
           <input class="pledge-input" type="text" id="pledge-dept" placeholder="소속 부서 (선택)" maxlength="30" />
         </div>
         <button class="btn-pledge" id="pledge-btn" onclick="submitPledge()">서약합니다 ✓</button>
@@ -851,6 +852,15 @@
       return;
     }
 
+    const empId = document.getElementById('pledge-empid').value.trim();
+    if (!/^\d+$/.test(empId)) {
+      const empInput = document.getElementById('pledge-empid');
+      empInput.focus();
+      empInput.style.borderColor = '#ef4444';
+      setTimeout(() => empInput.style.borderColor = '', 1200);
+      return;
+    }
+
     const btn = document.getElementById('pledge-btn');
     btn.disabled = true;
     btn.textContent = '저장 중...';
@@ -860,7 +870,7 @@
     try {
       const res = await fetch(SHEET_URL, {
         method: 'POST',
-        body: JSON.stringify({ name, dept })
+        body: JSON.stringify({ name, empId, dept })
       });
       const data = await res.json();
 
