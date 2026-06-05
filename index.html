@@ -714,20 +714,29 @@
       top: 33%;
       background: var(--primary);
       box-shadow: 0 4px 20px rgba(26,86,219,0.35);
-      min-width: 180px;
+      width: 210px;
       justify-content: center;
     }
     .floating-banner-pledge {
-      top: calc(33% + 3.5rem);
+      top: calc(33% + 4.5rem);
       background: #0e9f6e;
       box-shadow: 0 4px 20px rgba(14,159,110,0.35);
-      min-width: 180px;
+      width: 210px;
       justify-content: center;
+      flex-direction: column;
+      gap: 0.2rem;
+      border-radius: 20px;
+      text-align: center;
+    }
+    .banner-pledge-count {
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
     }
     @media (max-width: 768px) {
-      .floating-banner { font-size: 0.78rem; padding: 0.6rem 1rem; right: 1rem; gap: 0.5rem; min-width: 140px; }
+      .floating-banner { font-size: 0.78rem; padding: 0.6rem 1rem; right: 1rem; gap: 0.5rem; width: 160px; }
       .floating-banner-mail { top: 33%; }
-      .floating-banner-pledge { top: calc(33% + 3rem); }
+      .floating-banner-pledge { top: calc(33% + 4rem); }
     }
 
     @media (max-width: 768px) {
@@ -1013,7 +1022,8 @@
   <span class="banner-icon">✉️</span>CP님 존댓말 부탁해요!
 </a>
 <a class="floating-banner floating-banner-pledge" href="#pledge">
-  <span class="banner-icon">✍️</span>실시간 서약 참여자 <strong id="banner-count">0</strong>명
+  <span><span class="banner-icon">✍️</span> 실시간 서약 참여자</span>
+  <span class="banner-pledge-count">총 <strong id="banner-count">0</strong>명</span>
 </a>
 
 <!-- FOOTER -->
