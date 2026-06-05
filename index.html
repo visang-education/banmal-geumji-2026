@@ -687,54 +687,6 @@
     }
     .respect-again:hover { background: var(--primary); color: #fff; }
 
-    /* FLOATING BANNER */
-    .floating-banner {
-      position: fixed;
-      right: 2rem;
-      z-index: 200;
-      width: 160px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      padding: 0.65rem 1rem;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: filter 0.2s, transform 0.2s;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.25rem;
-      color: #fff;
-      text-align: center;
-    }
-    .floating-banner:hover {
-      filter: brightness(0.88);
-      transform: translateY(-2px);
-    }
-    .floating-banner .banner-icon { font-size: 1rem; }
-    .floating-banner-mail {
-      top: 33%;
-      background: var(--primary);
-      box-shadow: 0 4px 20px rgba(26,86,219,0.35);
-      flex-direction: row;
-      width: auto;
-    }
-    .floating-banner-pledge {
-      top: calc(33% + 5rem);
-      background: #0e9f6e;
-      box-shadow: 0 4px 20px rgba(14,159,110,0.35);
-    }
-    .banner-pledge-count {
-      font-size: 1.1rem;
-      font-weight: 900;
-    }
-    @media (max-width: 768px) {
-      .floating-banner { font-size: 0.78rem; padding: 0.7rem 1rem; right: 1rem; width: 155px; }
-      .floating-banner-mail { top: 33%; }
-      .floating-banner-pledge { top: calc(33% + 4.5rem); }
-    }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -757,6 +709,7 @@
     <li><a href="#guidelines">가이드라인</a></li>
     <li><a href="#examples">예시</a></li>
     <li><a href="#pledge">서약하기</a></li>
+    <li><a href="#respect-request">존댓말 부탁해요</a></li>
   </ul>
 </nav>
 
@@ -1014,15 +967,6 @@
   </div>
 </section>
 
-<!-- FLOATING BANNERS -->
-<a class="floating-banner floating-banner-mail" href="#respect-request">
-  <span class="banner-icon">✉️</span>
-  <span>존댓말 부탁해요!</span>
-</a>
-<a class="floating-banner floating-banner-pledge" href="#pledge">
-  <span><span class="banner-icon">✍️</span> 실시간 서약 참여자</span>
-  <span class="banner-pledge-count">총 <strong id="banner-count">0</strong>명</span>
-</a>
 
 <!-- FOOTER -->
 <footer>
@@ -1077,10 +1021,8 @@
 
   const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxX1HXw3IHlT7_eDOsVuX1MhX6aDKYzOEEM5ZfNQSeIkBmPFR4s-LzEU-6xBfP2v8Wa/exec';
   const countEl = document.getElementById('pledge-count');
-  const bannerCountEl = document.getElementById('banner-count');
 
   function animateCount(target) {
-    bannerCountEl.textContent = target.toLocaleString();
     let current = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
     const step = Math.max(1, Math.ceil(Math.abs(target - current) / 40));
     const timer = setInterval(() => {
