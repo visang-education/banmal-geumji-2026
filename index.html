@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사내 반말금지 선포 2026 — 비상교육</title>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>emailjs.init("kNwJM-B8t-ecu-Tbl");</script>
+  <script>emailjs.init({ publicKey: "kNwJM-B8t-ecu-Tbl" });</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1113,7 +1113,8 @@
       document.getElementById('respect-form-area').style.display = 'none';
       document.getElementById('respect-success').style.display = 'block';
     } catch(e) {
-      alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      const msg = e?.text || e?.message || JSON.stringify(e);
+      alert('전송 오류: ' + msg);
     } finally {
       btn.disabled = false;
       btn.textContent = '메일 보내기 ✉';
