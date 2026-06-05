@@ -711,14 +711,14 @@
     }
     .floating-banner .banner-icon { font-size: 1rem; }
     .floating-banner-mail {
-      bottom: 10rem;
+      top: 33%;
       background: var(--primary);
       box-shadow: 0 4px 20px rgba(26,86,219,0.35);
       min-width: 180px;
       justify-content: center;
     }
     .floating-banner-pledge {
-      bottom: 6rem;
+      top: calc(33% + 3.5rem);
       background: #0e9f6e;
       box-shadow: 0 4px 20px rgba(14,159,110,0.35);
       min-width: 180px;
@@ -726,8 +726,8 @@
     }
     @media (max-width: 768px) {
       .floating-banner { font-size: 0.78rem; padding: 0.6rem 1rem; right: 1rem; gap: 0.5rem; min-width: 140px; }
-      .floating-banner-mail { bottom: 8rem; }
-      .floating-banner-pledge { bottom: 4.5rem; }
+      .floating-banner-mail { top: 33%; }
+      .floating-banner-pledge { top: calc(33% + 3rem); }
     }
 
     @media (max-width: 768px) {
