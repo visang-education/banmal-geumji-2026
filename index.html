@@ -690,38 +690,40 @@
     /* FLOATING BANNER */
     .floating-banner {
       position: fixed;
-      bottom: 2rem;
       right: 2rem;
       z-index: 200;
-      background: var(--primary);
-      color: #fff;
       font-size: 0.9rem;
       font-weight: 700;
       letter-spacing: 0.05em;
       padding: 0.75rem 1.4rem;
       border-radius: 100px;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(26,86,219,0.35);
-      transition: background 0.2s, transform 0.2s;
+      transition: filter 0.2s, transform 0.2s;
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 0.9rem;
+      gap: 0.6rem;
+      color: #fff;
     }
     .floating-banner:hover {
-      background: var(--primary-dark);
+      filter: brightness(0.88);
       transform: translateY(-2px);
     }
     .floating-banner .banner-icon { font-size: 1rem; }
-    .banner-divider {
-      display: inline-block;
-      width: 1px;
-      height: 1rem;
-      background: rgba(255,255,255,0.4);
-      vertical-align: middle;
+    .floating-banner-mail {
+      bottom: 6rem;
+      background: var(--primary);
+      box-shadow: 0 4px 20px rgba(26,86,219,0.35);
+    }
+    .floating-banner-pledge {
+      bottom: 2rem;
+      background: #0e9f6e;
+      box-shadow: 0 4px 20px rgba(14,159,110,0.35);
     }
     @media (max-width: 768px) {
-      .floating-banner { font-size: 0.78rem; padding: 0.6rem 1rem; bottom: 1rem; right: 1rem; gap: 0.6rem; }
+      .floating-banner { font-size: 0.78rem; padding: 0.6rem 1rem; right: 1rem; gap: 0.5rem; }
+      .floating-banner-mail { bottom: 5rem; }
+      .floating-banner-pledge { bottom: 1rem; }
     }
 
     @media (max-width: 768px) {
@@ -1003,11 +1005,12 @@
   </div>
 </section>
 
-<!-- FLOATING BANNER -->
-<a class="floating-banner" href="#respect-request">
+<!-- FLOATING BANNERS -->
+<a class="floating-banner floating-banner-mail" href="#respect-request">
   <span class="banner-icon">✉️</span>존댓말 부탁해요
-  <span class="banner-divider"></span>
-  <span class="banner-icon">✍️</span><span id="banner-count">0</span>명 서약
+</a>
+<a class="floating-banner floating-banner-pledge" href="#pledge">
+  <span class="banner-icon">✍️</span>실시간 서약 <strong id="banner-count">0</strong>명
 </a>
 
 <!-- FOOTER -->
