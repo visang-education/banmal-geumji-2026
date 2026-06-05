@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사내 반말금지 선포 2026 — 비상교육</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("kNwJM-B8t-ecu-Tbl");</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -602,6 +604,83 @@
       transform: translateY(0);
     }
 
+    /* RESPECT REQUEST */
+    #respect-request {
+      background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+    }
+    .respect-box {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 24px rgba(26,86,219,0.08);
+      border: 1px solid var(--border);
+    }
+    .respect-desc-box {
+      background: #f8fafc;
+      border-left: 3px solid var(--primary);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .respect-input {
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 0.9rem;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .respect-input:focus { border-color: var(--primary); }
+    .btn-respect {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .btn-respect:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-respect:disabled { opacity: 0.6; cursor: not-allowed; }
+    .respect-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.9rem;
+      text-align: center;
+    }
+    .respect-success {
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .respect-success .check { font-size: 3rem; margin-bottom: 0.6rem; }
+    .respect-success p { font-size: 1rem; line-height: 1.7; }
+    .respect-again {
+      margin-top: 1.2rem;
+      background: none;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      border-radius: 10px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+    }
+    .respect-again:hover { background: var(--primary); color: #fff; }
+
     @media (max-width: 768px) {
       .nav-links { display: none; }
       section { padding: 4rem 1.2rem; }
@@ -623,6 +702,7 @@
     <li><a href="#guidelines">가이드라인</a></li>
     <li><a href="#examples">예시</a></li>
     <li><a href="#pledge">서약하기</a></li>
+    <li><a href="#respect-request">존댓말 부탁해요</a></li>
   </ul>
 </nav>
 
@@ -854,6 +934,31 @@
   </div>
 </section>
 
+<!-- RESPECT REQUEST -->
+<section id="respect-request">
+  <div class="container" style="text-align:center;">
+    <p class="section-label fade-in">존댓말 부탁해요</p>
+    <h2 class="section-title fade-in">CP 존댓말 부탁드려요!</h2>
+    <p class="section-desc fade-in">동료에게 정중하게 존댓말 실천을 요청해 보세요.<br>입력한 이메일 주소로 안내 메일이 전달됩니다.</p>
+    <div class="respect-box fade-in">
+      <div id="respect-form-area">
+        <div class="respect-desc-box">
+          📨 수신자에게 반말금지 선포 안내와 함께<br>
+          존댓말 실천을 정중하게 요청하는 메일이 발송됩니다.
+        </div>
+        <input class="respect-input" type="email" id="respect-email" placeholder="받는 분의 이메일 주소를 입력해 주세요" />
+        <button class="btn-respect" id="respect-btn" onclick="sendRespectMail()">메일 보내기 ✉</button>
+        <p class="respect-note">* 발송된 메일에는 발신자 정보가 포함되지 않습니다.</p>
+      </div>
+      <div class="respect-success" id="respect-success" style="display:none;">
+        <div class="check">✉️</div>
+        <p>메일이 전송되었습니다!<br><span style="font-size:0.88rem;color:var(--muted);">존중의 언어 문화를 함께 만들어 주셔서 감사합니다.</span></p>
+        <button class="respect-again" onclick="resetRespectForm()">한 명 더 보내기</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <img class="footer-logo" src="https://www.visang.com/images/gnb_logo_w.png" alt="VISANG" />
@@ -964,6 +1069,38 @@
       btn.textContent = '서약합니다 ✓';
       alert('저장 중 오류가 발생했습니다. 다시 시도해 주세요.');
     }
+  }
+
+  // ─── Send respect request mail via EmailJS ──────────────────────────
+  async function sendRespectMail() {
+    const emailInput = document.getElementById('respect-email');
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      emailInput.focus();
+      emailInput.style.borderColor = '#ef4444';
+      setTimeout(() => emailInput.style.borderColor = '', 1500);
+      return;
+    }
+    const btn = document.getElementById('respect-btn');
+    btn.disabled = true;
+    btn.textContent = '전송 중...';
+    try {
+      await emailjs.send('service_gu48b5j', 'template_dztjxty', { to_email: email });
+      document.getElementById('respect-form-area').style.display = 'none';
+      document.getElementById('respect-success').style.display = 'block';
+    } catch(e) {
+      alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '메일 보내기 ✉';
+    }
+  }
+
+  function resetRespectForm() {
+    document.getElementById('respect-email').value = '';
+    document.getElementById('respect-form-area').style.display = 'block';
+    document.getElementById('respect-success').style.display = 'none';
   }
 
   // ─── Smooth scroll for anchor links ─────────────────────────────────
