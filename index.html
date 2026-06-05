@@ -946,7 +946,9 @@
           📨 수신자에게 반말금지 선포 안내와 함께<br>
           존댓말 실천을 정중하게 요청하는 메일이 발송됩니다.
         </div>
+        <input class="respect-input" type="text" id="respect-name" placeholder="받는 분의 이름을 입력해 주세요" maxlength="20" />
         <input class="respect-input" type="email" id="respect-email" placeholder="받는 분의 이메일 주소를 입력해 주세요" />
+        <textarea class="respect-input" id="respect-message" placeholder="전달할 메시지를 입력해 주세요 (예: 앞으로 존댓말을 써주시면 감사하겠습니다!)" rows="3" style="resize:vertical;"></textarea>
         <button class="btn-respect" id="respect-btn" onclick="sendRespectMail()">메일 보내기 ✉</button>
         <p class="respect-note">* 발송된 메일에는 발신자 정보가 포함되지 않습니다.</p>
       </div>
@@ -1073,20 +1075,41 @@
 
   // ─── Send respect request mail via EmailJS ──────────────────────────
   async function sendRespectMail() {
+    const nameInput  = document.getElementById('respect-name');
     const emailInput = document.getElementById('respect-email');
-    const email = emailInput.value.trim();
+    const msgInput   = document.getElementById('respect-message');
+
+    const name    = nameInput.value.trim();
+    const email   = emailInput.value.trim();
+    const message = msgInput.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      emailInput.focus();
-      emailInput.style.borderColor = '#ef4444';
-      setTimeout(() => emailInput.style.borderColor = '', 1500);
-      return;
+
+    if (!name) {
+      nameInput.focus(); nameInput.style.borderColor = '#ef4444';
+      setTimeout(() => nameInput.style.borderColor = '', 1500); return;
     }
+    if (!emailRegex.test(email)) {
+      emailInput.focus(); emailInput.style.borderColor = '#ef4444';
+      setTimeout(() => emailInput.style.borderColor = '', 1500); return;
+    }
+    if (!message) {
+      msgInput.focus(); msgInput.style.borderColor = '#ef4444';
+      setTimeout(() => msgInput.style.borderColor = '', 1500); return;
+    }
+
+    const now = new Date();
+    const time = `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+
     const btn = document.getElementById('respect-btn');
     btn.disabled = true;
     btn.textContent = '전송 중...';
     try {
-      await emailjs.send('service_gu48b5j', 'template_dztjxty', { to_email: email });
+      await emailjs.send('service_gu48b5j', 'template_dztjxty', {
+        to_email: email,
+        name,
+        time,
+        message,
+      });
       document.getElementById('respect-form-area').style.display = 'none';
       document.getElementById('respect-success').style.display = 'block';
     } catch(e) {
@@ -1098,7 +1121,9 @@
   }
 
   function resetRespectForm() {
+    document.getElementById('respect-name').value = '';
     document.getElementById('respect-email').value = '';
+    document.getElementById('respect-message').value = '';
     document.getElementById('respect-form-area').style.display = 'block';
     document.getElementById('respect-success').style.display = 'none';
   }
