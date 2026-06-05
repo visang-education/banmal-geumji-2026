@@ -694,32 +694,37 @@
       top: 120px;
       right: 0;
       z-index: 99;
-      background: var(--accent);
-      color: #1a1a1a;
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-right: none;
       font-size: 0.95rem;
       font-weight: 800;
       letter-spacing: 0.04em;
       padding: 0.75rem 1.4rem 0.75rem 1.6rem;
       border-radius: 100px 0 0 100px;
-      box-shadow: -2px 4px 14px rgba(245,158,11,0.35);
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.45rem;
-      transition: filter 0.2s, transform 0.2s;
+      transition: background 0.2s, transform 0.2s;
       width: 240px;
     }
     .top-right-banner:hover {
-      filter: brightness(0.92);
+      background: rgba(245,158,11,0.1);
       transform: translateX(-3px);
     }
     .top-right-banner-pledge {
       top: 178px;
-      background: #0e9f6e;
-      color: #fff;
-      box-shadow: -2px 4px 14px rgba(14,159,110,0.35);
+      background: transparent;
+      color: #0e9f6e;
+      border: 2px solid #0e9f6e;
+      border-right: none;
       width: 240px;
+    }
+    .top-right-banner-pledge:hover {
+      background: rgba(14,159,110,0.1);
     }
 
     @media (max-width: 768px) {
