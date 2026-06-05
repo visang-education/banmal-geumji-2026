@@ -719,6 +719,13 @@
       writing-mode: horizontal-tb;
       font-size: 1rem;
     }
+    .banner-divider {
+      display: block;
+      width: 70%;
+      height: 1px;
+      background: rgba(255,255,255,0.35);
+      margin: 0.5rem auto;
+    }
     @media (max-width: 768px) {
       .floating-banner { font-size: 0.75rem; padding: 0.9rem 0.5rem; }
     }
@@ -1005,6 +1012,8 @@
 <!-- FLOATING BANNER -->
 <a class="floating-banner" href="#respect-request">
   <span class="banner-icon">✉️</span>존댓말 부탁해요
+  <span class="banner-divider"></span>
+  <span class="banner-icon">✍️</span><span id="banner-count">0</span>명 서약
 </a>
 
 <!-- FOOTER -->
@@ -1060,8 +1069,10 @@
 
   const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxX1HXw3IHlT7_eDOsVuX1MhX6aDKYzOEEM5ZfNQSeIkBmPFR4s-LzEU-6xBfP2v8Wa/exec';
   const countEl = document.getElementById('pledge-count');
+  const bannerCountEl = document.getElementById('banner-count');
 
   function animateCount(target) {
+    bannerCountEl.textContent = target.toLocaleString();
     let current = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
     const step = Math.max(1, Math.ceil(Math.abs(target - current) / 40));
     const timer = setInterval(() => {
