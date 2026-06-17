@@ -1314,6 +1314,9 @@
       const res = await fetch(`${SHEET_URL}?${params}`);
       const data = await res.json();
 
+      // 디버그: 응답 확인용 (확인 후 삭제)
+      console.log('GAS 응답:', JSON.stringify(data));
+
       if (data.error) {
         btn.disabled = false;
         btn.textContent = '서약합니다 ✓';
