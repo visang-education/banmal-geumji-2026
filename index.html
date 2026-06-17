@@ -700,6 +700,27 @@
       color: var(--accent);
       letter-spacing: 0.2em;
     }
+    .winner-prize-box {
+      background: rgba(245,158,11,0.15);
+      border: 1px solid rgba(245,158,11,0.45);
+      border-radius: 14px;
+      padding: 0.6rem 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .winner-prize-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+    .winner-prize-amount {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -1px;
+      line-height: 1.1;
+    }
     .winner-desc {
       color: rgba(255,255,255,0.65);
       font-size: 0.92rem;
@@ -1189,16 +1210,20 @@
 <div id="winner-overlay" role="dialog" aria-modal="true">
   <div class="winner-box">
     <span class="winner-trophy">🏆</span>
-    <div class="winner-badge">🎊 100인 즉석 당첨 이벤트</div>
+    <div class="winner-badge">🎊 즉석 당첨 이벤트</div>
     <h2 class="winner-title">당첨!</h2>
     <p class="winner-name" id="winner-name-text"></p>
+    <div class="winner-prize-box">
+      <div class="winner-prize-label">당첨 상품</div>
+      <div class="winner-prize-amount" id="winner-prize-amount">🎁</div>
+    </div>
     <div class="winner-number-box">
       <div class="winner-number-label">당첨 번호 (수령 시 제시)</div>
       <div class="winner-number" id="winner-number-text"></div>
     </div>
     <p class="winner-desc">
       <strong>경영혁신Core</strong>로 이 화면을 캡처해서<br>
-      보내주시면 소정의 선물을 드립니다! 🎁
+      보내주시면 상품을 드립니다! 🎁
     </p>
     <button class="btn-winner-close" onclick="closeWinnerOverlay()">확인했습니다</button>
   </div>
@@ -1331,7 +1356,7 @@
       animateCount(data.count || 0);
 
       if (data.winner) {
-        setTimeout(() => showWinnerCelebration(name, data.winnerNum), 700);
+        setTimeout(() => showWinnerCelebration(name, data.winnerNum, data.winnerLabel), 700);
       }
     } catch(e) {
       btn.disabled = false;
@@ -1341,9 +1366,10 @@
   }
 
   // ─── Winner celebration ───────────────────────────────────────────────
-  function showWinnerCelebration(name, winnerNum) {
+  function showWinnerCelebration(name, winnerNum, winnerLabel) {
     document.getElementById('winner-name-text').textContent = name + 'CP님, 당첨되셨습니다! 🎉';
     document.getElementById('winner-number-text').textContent = winnerNum || 'WIN-' + Date.now().toString().slice(-5);
+    document.getElementById('winner-prize-amount').textContent = winnerLabel ? winnerLabel + ' 상품권 🎁' : '🎁';
     document.getElementById('winner-overlay').classList.add('show');
     launchConfetti();
   }
