@@ -581,6 +581,70 @@
       letter-spacing: 0.03em;
     }
 
+    /* PRIZES STRIP */
+    .prizes-strip {
+      background: #0e1a3a;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 1.1rem 2rem 1.3rem;
+    }
+    .prizes-strip-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .prizes-strip-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+      text-align: center;
+    }
+    .prizes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.55rem;
+    }
+    .prize-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 0.6rem 0.5rem;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .prize-item-label {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .prize-item-bar-wrap {
+      height: 5px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 0.3rem;
+    }
+    .prize-item-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #f59e0b, #fcd34d);
+      border-radius: 100px;
+      transition: width 0.8s ease;
+    }
+    .prize-item-count {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+    }
+    .prize-item-count strong { color: #fff; font-weight: 700; }
+    .prize-soldout .prize-item-label { color: rgba(255,255,255,0.25); }
+    .prize-soldout .prize-item-bar { background: rgba(255,255,255,0.1) !important; width: 0% !important; }
+    .prize-soldout .prize-item-count strong { color: rgba(255,255,255,0.25); }
+    .prize-soldout { border-color: rgba(255,255,255,0.04); }
+    @media (max-width: 640px) {
+      .prizes-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
     /* FOOTER */
     footer {
       background: #060d1f;
@@ -957,6 +1021,19 @@
   <div class="label">명이 서약에 참여했습니다</div>
 </div>
 
+<!-- PRIZES STRIP -->
+<div class="prizes-strip">
+  <div class="prizes-strip-inner">
+    <div class="prizes-strip-title">🎁 잔여 상품 현황</div>
+    <div class="prizes-grid" id="prizes-grid">
+      <div class="prize-item"><div class="prize-item-label">10만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/1개</div></div>
+      <div class="prize-item"><div class="prize-item-label">5만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/2개</div></div>
+      <div class="prize-item"><div class="prize-item-label">3만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/30개</div></div>
+      <div class="prize-item"><div class="prize-item-label">1만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/100개</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- CP MESSAGE -->
 <section id="cp-message">
   <div class="container">
@@ -1295,10 +1372,28 @@
     }, 40);
   }
 
+  function renderPrizes(prizes) {
+    if (!prizes || !prizes.length) return;
+    const grid = document.getElementById('prizes-grid');
+    grid.innerHTML = prizes.map(p => {
+      const pct = p.total > 0 ? (p.remaining / p.total) * 100 : 0;
+      const soldOut = p.remaining === 0;
+      return `
+        <div class="prize-item${soldOut ? ' prize-soldout' : ''}">
+          <div class="prize-item-label">${p.label}</div>
+          <div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:${pct}%"></div></div>
+          <div class="prize-item-count"><strong>${p.remaining}</strong>/${p.total}개</div>
+        </div>`;
+    }).join('');
+  }
+
   // 페이지 로드 시 실제 서약자 수 가져오기
   fetch(SHEET_URL)
     .then(r => r.json())
-    .then(data => animateCount(data.count || 0))
+    .then(data => {
+      animateCount(data.count || 0);
+      renderPrizes(data.prizes);
+    })
     .catch(() => {});
 
   // ─── Submit pledge ───────────────────────────────────────────────────
@@ -1354,6 +1449,7 @@
       document.getElementById('pledge-success').style.display = 'block';
       document.getElementById('success-name').textContent = name;
       animateCount(data.count || 0);
+      renderPrizes(data.prizes);
 
       if (data.winner) {
         setTimeout(() => showWinnerCelebration(name, data.winnerNum, data.winnerLabel), 700);
