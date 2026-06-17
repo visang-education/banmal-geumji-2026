@@ -1314,6 +1314,13 @@
       const res = await fetch(`${SHEET_URL}?${params}`);
       const data = await res.json();
 
+      if (data.error) {
+        btn.disabled = false;
+        btn.textContent = '서약합니다 ✓';
+        alert('오류가 발생했습니다: ' + data.error);
+        return;
+      }
+
       if (data.duplicate) {
         document.getElementById('pledge-form-area').style.display = 'none';
         document.getElementById('pledge-duplicate').style.display = 'block';
