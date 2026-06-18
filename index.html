@@ -1385,14 +1385,19 @@
     }).join('');
   }
 
-  // 페이지 로드 시 실제 서약자 수 가져오기
-  fetch(SHEET_URL)
-    .then(r => r.json())
-    .then(data => {
-      animateCount(data.count || 0);
-      renderPrizes(data.prizes);
-    })
-    .catch(() => {});
+  // 서약자 수 및 잔여 상품 갱신
+  function fetchCount() {
+    fetch(SHEET_URL)
+      .then(r => r.json())
+      .then(data => {
+        animateCount(data.count || 0);
+        renderPrizes(data.prizes);
+      })
+      .catch(() => {});
+  }
+
+  fetchCount();
+  setInterval(fetchCount, 30000); // 30초마다 자동 갱신
 
   // ─── Submit pledge ───────────────────────────────────────────────────
   async function submitPledge() {
