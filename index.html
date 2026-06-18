@@ -416,18 +416,18 @@
     }
 
     /* EXAMPLES */
-    #examples { background: #ffffff; overflow: visible; height: auto; min-height: 100vh; padding-bottom: 3rem; }
+    #examples { background: #ffffff; }
     .example-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.9rem;
+      gap: 0.6rem;
     }
     @media (max-width: 640px) {
       .example-grid { grid-template-columns: 1fr; }
     }
     .example-card {
-      border-radius: 14px;
-      padding: 1.1rem;
+      border-radius: 12px;
+      padding: 0.75rem;
       border: 2px solid;
     }
     .example-card.bad {
@@ -442,30 +442,30 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       border-radius: 100px;
-      padding: 0.2rem 0.7rem;
-      margin-bottom: 0.6rem;
+      padding: 0.15rem 0.6rem;
+      margin-bottom: 0.4rem;
     }
     .example-tag.bad { background: #fee2e2; color: var(--danger); }
     .example-tag.good { background: #dcfce7; color: var(--success); }
     .bubble-wrap {
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.3rem;
     }
     .bubble {
       background: #ffffff;
-      border-radius: 10px;
-      padding: 0.5rem 0.75rem;
-      font-size: 0.9rem;
+      border-radius: 8px;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.82rem;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
     .bubble .speaker {
-      font-size: 0.7rem;
+      font-size: 0.66rem;
       font-weight: 700;
-      margin-bottom: 0.15rem;
+      margin-bottom: 0.1rem;
     }
     .bubble.bad-text .speaker { color: var(--danger); }
     .bubble.good-text .speaker { color: var(--success); }
@@ -997,6 +997,7 @@
     <li><a href="#guidelines">가이드라인</a></li>
     <li><a href="#examples">예시</a></li>
     <li><a href="#pledge">서약하기</a></li>
+    <li><a href="#respect-request">존댓말 부탁드려요</a></li>
   </ul>
 </nav>
 
@@ -1275,9 +1276,6 @@
 
 
 <!-- TOP RIGHT BANNERS -->
-<a class="top-right-banner" href="#respect-request">
-  ✉️ CP님 존댓말 부탁드려요!
-</a>
 <a class="top-right-banner top-right-banner-pledge" href="#pledge">
   ✍️ 현재 서약자 수 <strong id="banner-count">0</strong>명
 </a>
