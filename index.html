@@ -428,6 +428,33 @@
 
     /* EXAMPLES */
     #examples { background: #ffffff; }
+    .examples-scroll-wrap {
+      overflow-y: auto;
+      max-height: calc(100vh - 11rem);
+      padding-right: 0.3rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .example-scenario { margin-bottom: 0.9rem; }
+    .example-scenario-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .example-effect {
+      background: linear-gradient(135deg, #f0f7ff, #e8f4fd);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+      line-height: 1.6;
+    }
+    .example-effect strong { color: var(--primary); }
     .example-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1145,67 +1172,78 @@
     <p class="section-label fade-in">사용 예시</p>
     <h2 class="section-title fade-in">이렇게 달라집니다</h2>
     <p class="section-desc fade-in">작은 말 한마디의 변화가 관계를 바꿉니다.</p>
-    <div class="example-grid">
-      <div class="example-card bad fade-in">
-        <div class="example-tag bad">✗ 변경 전</div>
-        <div class="bubble-wrap">
-          <div class="bubble bad-text">
-            <div class="speaker">리더</div>
-            "야, 이 보고서 다시 써. 내용이 너무 부실해."
+    <div class="examples-scroll-wrap">
+
+      <!-- 상황 1 -->
+      <div class="example-scenario">
+        <div class="example-scenario-label">상황 1 · 보고서 수정 요청</div>
+        <div class="example-grid">
+          <div class="example-card bad fade-in">
+            <div class="example-tag bad">✗ 변경 전</div>
+            <div class="bubble-wrap">
+              <div class="bubble bad-text"><div class="speaker">리더</div>"야, 이 보고서 다시 써. 내용이 너무 부실해."</div>
+              <div class="bubble bad-text"><div class="speaker">신입사원</div>"…네, 알겠습니다."</div>
+              <div class="bubble bad-text"><div class="speaker">리더</div>"빨리빨리 해. 그것도 못 해?"</div>
+            </div>
           </div>
-          <div class="bubble bad-text">
-            <div class="speaker">신입사원</div>
-            "…네, 알겠습니다."
-          </div>
-          <div class="bubble bad-text">
-            <div class="speaker">리더</div>
-            "빨리빨리 해. 그것도 못 해?"
-          </div>
-        </div>
-      </div>
-      <div class="example-card good fade-in">
-        <div class="example-tag good">✓ 변경 후</div>
-        <div class="bubble-wrap">
-          <div class="bubble good-text">
-            <div class="speaker">리더</div>
-            "○○CP님, 이 보고서 내용을 조금 더 구체화해 주시겠어요?"
-          </div>
-          <div class="bubble good-text">
-            <div class="speaker">신입사원</div>
-            "네, 어떤 부분을 보완하면 좋을지 알려주시면 감사하겠습니다."
-          </div>
-          <div class="bubble good-text">
-            <div class="speaker">리더</div>
-            "데이터 근거를 좀 더 추가해 주시면 좋을 것 같아요. 도움이 필요하면 말씀해 주세요!"
+          <div class="example-card good fade-in">
+            <div class="example-tag good">✓ 변경 후</div>
+            <div class="bubble-wrap">
+              <div class="bubble good-text"><div class="speaker">리더</div>"○○CP님, 이 보고서 내용을 조금 더 구체화해 주시겠어요?"</div>
+              <div class="bubble good-text"><div class="speaker">신입사원</div>"네, 어떤 부분을 보완하면 좋을지 알려주시면 감사하겠습니다."</div>
+              <div class="bubble good-text"><div class="speaker">리더</div>"데이터 근거를 좀 더 추가해 주시면 좋을 것 같아요. 도움이 필요하면 말씀해 주세요!"</div>
+            </div>
           </div>
         </div>
+        <div class="example-effect">💡 <strong>존중의 효과:</strong> '야'라는 일방적인 지시어 대신 'OO CP님'이라는 존칭을 사용함으로써, 상하 관계가 아닌 프로페셔널한 동료로서 피드백을 주고받는 분위기가 형성됩니다.</div>
       </div>
-      <div class="example-card bad fade-in">
-        <div class="example-tag bad">✗ 변경 전</div>
-        <div class="bubble-wrap">
-          <div class="bubble bad-text">
-            <div class="speaker">선배</div>
-            "어, 너 어제 회의 자료 왜 그렇게 만들었어?"
+
+      <!-- 상황 2 -->
+      <div class="example-scenario">
+        <div class="example-scenario-label">상황 2 · 회의 자료 피드백</div>
+        <div class="example-grid">
+          <div class="example-card bad fade-in">
+            <div class="example-tag bad">✗ 변경 전</div>
+            <div class="bubble-wrap">
+              <div class="bubble bad-text"><div class="speaker">선배</div>"어, 너 어제 회의 자료 왜 그렇게 만들었어?"</div>
+              <div class="bubble bad-text"><div class="speaker">후배</div>"죄송합니다. 제가 잘못 이해했어요."</div>
+            </div>
           </div>
-          <div class="bubble bad-text">
-            <div class="speaker">후배</div>
-            "죄송합니다. 제가 잘못 이해했어요."
+          <div class="example-card good fade-in">
+            <div class="example-tag good">✓ 변경 후</div>
+            <div class="bubble-wrap">
+              <div class="bubble good-text"><div class="speaker">선배</div>"○○CP님, 어제 회의 자료에서 의도한 방향이 궁금한데 잠깐 이야기 나눌 수 있을까요?"</div>
+              <div class="bubble good-text"><div class="speaker">후배</div>"네, CP님. 혹시 제가 방향을 다르게 파악한 부분이 있을까요? 편하게 말씀해 주시면 바로 확인해 보겠습니다."</div>
+            </div>
           </div>
         </div>
+        <div class="example-effect">💡 <strong>존중의 효과:</strong> 자칫 감정적으로 들릴 수 있는 '너'라는 호칭을 배제하고 직함을 사용해 대화의 포커스를 '개인'에서 '업무'로 자연스럽게 이동시켰습니다.</div>
       </div>
-      <div class="example-card good fade-in">
-        <div class="example-tag good">✓ 변경 후</div>
-        <div class="bubble-wrap">
-          <div class="bubble good-text">
-            <div class="speaker">선배</div>
-            "○○CP님, 어제 회의 자료에서 의도한 방향이 궁금한데 잠깐 이야기 나눌 수 있을까요?"
+
+      <!-- 상황 3 -->
+      <div class="example-scenario">
+        <div class="example-scenario-label">상황 3 · 업무 실수 지적</div>
+        <div class="example-grid">
+          <div class="example-card bad fade-in">
+            <div class="example-tag bad">✗ 변경 전</div>
+            <div class="bubble-wrap">
+              <div class="bubble bad-text"><div class="speaker">동료</div>"너 이거 왜 이렇게 했어? 다시 해야겠는데."</div>
+              <div class="bubble bad-text"><div class="speaker">나</div>"...저는 그렇게 하면 되는 줄 알았어요."</div>
+              <div class="bubble bad-text"><div class="speaker">동료</div>"알아서 좀 잘해. 매번 이래?"</div>
+            </div>
           </div>
-          <div class="bubble good-text">
-            <div class="speaker">후배</div>
-            "네, CP님. 혹시 제가 방향을 다르게 파악한 부분이 있을까요? 편하게 말씀해 주시면 바로 확인해 보겠습니다."
+          <div class="example-card good fade-in">
+            <div class="example-tag good">✓ 변경 후</div>
+            <div class="bubble-wrap">
+              <div class="bubble good-text"><div class="speaker">동료</div>"OO CP님, 이 부분이 기존 방식과 조금 다른 것 같아서요. 잠깐 같이 확인해봐도 될까요?"</div>
+              <div class="bubble good-text"><div class="speaker">나</div>"네, 물론이죠! 어떤 부분이 안 맞나요?"</div>
+              <div class="bubble good-text"><div class="speaker">동료</div>"팀 규칙이 바뀐 걸 몰랐을 수도 있어서요. 공유해 드릴게요!"</div>
+            </div>
           </div>
         </div>
+        <div class="example-effect">💡 <strong>존중의 효과:</strong> 실수를 지적하는 민감한 상황에서 존칭을 먼저 건네면, 상대방의 방어 기제를 낮추고 문제 해결에 집중하게 만드는 효과가 있습니다.</div>
       </div>
+
     </div>
   </div>
 </section>
