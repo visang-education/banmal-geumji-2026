@@ -1769,7 +1769,7 @@
       const rowCount = Math.ceil(names.length / cols);
       const rowHeight = 45;
       const totalHeight = rowCount * rowHeight;
-      const duration = Math.max(20, rowCount * 1.5);
+      const duration = Math.max(18, rowCount * 1.35);
       tickerEl.style.setProperty('--ticker-height', `${totalHeight}px`);
       tickerEl.style.animationDuration = `${duration}s`;
       tickerEl.classList.add('animate');
