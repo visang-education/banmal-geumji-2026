@@ -695,62 +695,72 @@
       font-weight: 700;
       padding: 0.3rem 1rem;
       border-radius: 100px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
     }
-    .pledge-list-table-wrap {
-      max-width: 480px;
+    .pledge-ticker-wrap {
+      max-width: 960px;
       margin: 0 auto;
+      height: 320px;
       overflow: hidden;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
     }
-    .pledge-list-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
+    .pledge-ticker-wrap::before,
+    .pledge-ticker-wrap::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 60px;
+      z-index: 2;
+      pointer-events: none;
     }
-    .pledge-list-table thead tr {
-      background: rgba(255,255,255,0.07);
+    .pledge-ticker-wrap::before {
+      top: 0;
+      background: linear-gradient(to bottom, #0a1228, transparent);
     }
-    .pledge-list-table th {
-      padding: 0.75rem 1.2rem;
-      text-align: left;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.4);
-      text-transform: uppercase;
+    .pledge-ticker-wrap::after {
+      bottom: 0;
+      background: linear-gradient(to top, #0a1228, transparent);
     }
-    .pledge-list-table th:last-child { text-align: left; }
-    .pledge-list-table tbody tr {
-      border-top: 1px solid rgba(255,255,255,0.05);
-      transition: background 0.15s;
+    .pledge-ticker {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
-    .pledge-list-table tbody tr:hover { background: rgba(255,255,255,0.04); }
-    .pledge-list-table td {
-      padding: 0.65rem 1.2rem;
-      color: rgba(255,255,255,0.8);
+    .pledge-ticker.animate {
+      animation: tickerScroll linear infinite;
+    }
+    @keyframes tickerScroll {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(calc(var(--ticker-height, 50%) * -1)); }
+    }
+    .pledge-ticker-row {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .pledge-ticker-name {
+      padding: 0.7rem 0.4rem;
       font-size: 0.88rem;
+      color: rgba(255,255,255,0.82);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .pledge-list-table td.emp-id {
-      font-family: monospace;
-      font-weight: 700;
-      color: var(--accent);
-      width: 35%;
-    }
-    .pledge-list-empty {
-      padding: 2rem;
-      color: rgba(255,255,255,0.3);
-      font-size: 0.9rem;
+    .pledge-ticker-row:nth-child(odd) .pledge-ticker-name {
+      color: rgba(255,255,255,0.9);
     }
     .pledge-list-loading {
       padding: 2rem;
       color: rgba(255,255,255,0.3);
       font-size: 0.88rem;
     }
-    @media (max-width: 480px) {
-      .pledge-list-table th,
-      .pledge-list-table td { padding: 0.6rem 0.9rem; }
+    @media (max-width: 768px) {
+      .pledge-ticker-row { grid-template-columns: repeat(5, 1fr); }
+      .pledge-ticker-name { font-size: 0.8rem; padding: 0.6rem 0.2rem; }
     }
 
     /* FOOTER */
@@ -1426,17 +1436,9 @@
   <h2 class="section-title fade-in">함께해 주신 분들</h2>
   <p class="section-desc fade-in">존중의 언어 문화에 동참해 주신 모든 분께 감사드립니다.</p>
   <div class="pledge-list-count" id="pledge-list-count">불러오는 중...</div>
-  <div class="pledge-list-table-wrap">
+  <div class="pledge-ticker-wrap">
     <div class="pledge-list-loading" id="pledge-list-loading">명단을 불러오는 중입니다...</div>
-    <table class="pledge-list-table" id="pledge-list-table" style="display:none;">
-      <thead>
-        <tr>
-          <th>사번</th>
-          <th>이름</th>
-        </tr>
-      </thead>
-      <tbody id="pledge-list-body"></tbody>
-    </table>
+    <div class="pledge-ticker" id="pledge-ticker"></div>
   </div>
 </section>
 
@@ -1722,7 +1724,7 @@
     document.getElementById('respect-success').style.display = 'none';
   }
 
-  // ─── Pledge list ─────────────────────────────────────────────────────
+  // ─── Pledge list ticker ───────────────────────────────────────────────
   async function fetchPledgeList() {
     try {
       const res = await fetch(`${SHEET_URL}?action=list`);
@@ -1730,8 +1732,7 @@
       const list = data.list || [];
       const countEl = document.getElementById('pledge-list-count');
       const loadingEl = document.getElementById('pledge-list-loading');
-      const tableEl = document.getElementById('pledge-list-table');
-      const bodyEl = document.getElementById('pledge-list-body');
+      const tickerEl = document.getElementById('pledge-ticker');
 
       countEl.textContent = `총 ${list.length}명`;
 
@@ -1740,12 +1741,40 @@
         return;
       }
 
-      bodyEl.innerHTML = list.map(r =>
-        `<tr><td class="emp-id">${r.empId}</td><td>${r.name || '-'}</td></tr>`
-      ).join('');
+      // 이름만 ㄱㄴ순 정렬, #N/A 제외
+      const names = list
+        .map(r => r.name || '')
+        .filter(n => n && n !== '#N/A')
+        .sort((a, b) => a.localeCompare(b, 'ko'));
+
+      // 10개씩 행으로 나누기
+      const cols = window.innerWidth <= 768 ? 5 : 10;
+      function buildRows(nameArr) {
+        let html = '';
+        for (let i = 0; i < nameArr.length; i += cols) {
+          const chunk = nameArr.slice(i, i + cols);
+          while (chunk.length < cols) chunk.push('');
+          html += `<div class="pledge-ticker-row">${chunk.map(n =>
+            `<span class="pledge-ticker-name">${n}</span>`
+          ).join('')}</div>`;
+        }
+        return html;
+      }
+
+      // seamless loop: 내용을 2번 반복
+      const rowsHtml = buildRows(names);
+      tickerEl.innerHTML = rowsHtml + rowsHtml;
+
+      // 한 세트 높이 기준으로 애니메이션 속도 계산 (행당 45px, 40초 기준)
+      const rowCount = Math.ceil(names.length / cols);
+      const rowHeight = 45;
+      const totalHeight = rowCount * rowHeight;
+      const duration = Math.max(20, rowCount * 1.5);
+      tickerEl.style.setProperty('--ticker-height', `${totalHeight}px`);
+      tickerEl.style.animationDuration = `${duration}s`;
+      tickerEl.classList.add('animate');
 
       loadingEl.style.display = 'none';
-      tableEl.style.display = 'table';
     } catch(e) {
       document.getElementById('pledge-list-loading').textContent = '명단을 불러오지 못했습니다.';
     }
