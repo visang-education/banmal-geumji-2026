@@ -675,6 +675,84 @@
       .prizes-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* PLEDGE LIST */
+    #pledge-list {
+      background: #0a1228;
+      color: #ffffff;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    #pledge-list .section-label { color: var(--accent); }
+    #pledge-list .section-title { color: #ffffff; }
+    #pledge-list .section-desc { color: rgba(255,255,255,0.55); margin: 0 auto 2rem; max-width: 560px; }
+    .pledge-list-count {
+      display: inline-block;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.3);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.3rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    .pledge-list-table-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .pledge-list-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .pledge-list-table thead tr {
+      background: rgba(255,255,255,0.07);
+    }
+    .pledge-list-table th {
+      padding: 0.75rem 1.2rem;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+    }
+    .pledge-list-table th:last-child { text-align: left; }
+    .pledge-list-table tbody tr {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.15s;
+    }
+    .pledge-list-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+    .pledge-list-table td {
+      padding: 0.65rem 1.2rem;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.88rem;
+    }
+    .pledge-list-table td.emp-id {
+      font-family: monospace;
+      font-weight: 700;
+      color: var(--accent);
+      width: 35%;
+    }
+    .pledge-list-empty {
+      padding: 2rem;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.9rem;
+    }
+    .pledge-list-loading {
+      padding: 2rem;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.88rem;
+    }
+    @media (max-width: 480px) {
+      .pledge-list-table th,
+      .pledge-list-table td { padding: 0.6rem 0.9rem; }
+    }
+
     /* FOOTER */
     footer {
       background: #060d1f;
@@ -1028,6 +1106,7 @@
     <li><a href="#examples">예시</a></li>
     <li><a href="#pledge">서약하기</a></li>
     <li><a href="#respect-request">존댓말 부탁해요</a></li>
+    <li><a href="#pledge-list">서약자 명단</a></li>
   </ul>
 </nav>
 
@@ -1341,6 +1420,26 @@
 </section>
 
 
+<!-- PLEDGE LIST -->
+<section id="pledge-list">
+  <p class="section-label fade-in">서약자 명단</p>
+  <h2 class="section-title fade-in">함께해 주신 분들</h2>
+  <p class="section-desc fade-in">존중의 언어 문화에 동참해 주신 모든 분께 감사드립니다.</p>
+  <div class="pledge-list-count" id="pledge-list-count">불러오는 중...</div>
+  <div class="pledge-list-table-wrap">
+    <div class="pledge-list-loading" id="pledge-list-loading">명단을 불러오는 중입니다...</div>
+    <table class="pledge-list-table" id="pledge-list-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>사번</th>
+          <th>이름</th>
+        </tr>
+      </thead>
+      <tbody id="pledge-list-body"></tbody>
+    </table>
+  </div>
+</section>
+
 <!-- TOP RIGHT BANNERS -->
 <a class="top-right-banner top-right-banner-pledge" href="#pledge">
   ✍️ 실시간 서약자 수 <strong id="banner-count">0</strong>명
@@ -1622,6 +1721,36 @@
     document.getElementById('respect-form-area').style.display = 'block';
     document.getElementById('respect-success').style.display = 'none';
   }
+
+  // ─── Pledge list ─────────────────────────────────────────────────────
+  async function fetchPledgeList() {
+    try {
+      const res = await fetch(`${SHEET_URL}?action=list`);
+      const data = await res.json();
+      const list = data.list || [];
+      const countEl = document.getElementById('pledge-list-count');
+      const loadingEl = document.getElementById('pledge-list-loading');
+      const tableEl = document.getElementById('pledge-list-table');
+      const bodyEl = document.getElementById('pledge-list-body');
+
+      countEl.textContent = `총 ${list.length}명`;
+
+      if (list.length === 0) {
+        loadingEl.textContent = '아직 서약자가 없습니다.';
+        return;
+      }
+
+      bodyEl.innerHTML = list.map(r =>
+        `<tr><td class="emp-id">${r.empId}</td><td>${r.name || '-'}</td></tr>`
+      ).join('');
+
+      loadingEl.style.display = 'none';
+      tableEl.style.display = 'table';
+    } catch(e) {
+      document.getElementById('pledge-list-loading').textContent = '명단을 불러오지 못했습니다.';
+    }
+  }
+  fetchPledgeList();
 
   // ─── Smooth scroll for anchor links ─────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(a => {
