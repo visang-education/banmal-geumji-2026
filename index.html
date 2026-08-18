@@ -611,70 +611,6 @@
       letter-spacing: 0.03em;
     }
 
-    /* PRIZES STRIP */
-    .prizes-strip {
-      background: #0e1a3a;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      padding: 1.1rem 2rem 1.3rem;
-    }
-    .prizes-strip-inner {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .prizes-strip-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.7rem;
-      text-align: center;
-    }
-    .prizes-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.55rem;
-    }
-    .prize-item {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 0.6rem 0.5rem;
-      text-align: center;
-      transition: border-color 0.3s;
-    }
-    .prize-item-label {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 0.3rem;
-    }
-    .prize-item-bar-wrap {
-      height: 5px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 100px;
-      overflow: hidden;
-      margin-bottom: 0.3rem;
-    }
-    .prize-item-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #f59e0b, #fcd34d);
-      border-radius: 100px;
-      transition: width 0.8s ease;
-    }
-    .prize-item-count {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.45);
-    }
-    .prize-item-count strong { color: #fff; font-weight: 700; }
-    .prize-soldout .prize-item-label { color: rgba(255,255,255,0.25); }
-    .prize-soldout .prize-item-bar { background: rgba(255,255,255,0.1) !important; width: 0% !important; }
-    .prize-soldout .prize-item-count strong { color: rgba(255,255,255,0.25); }
-    .prize-soldout { border-color: rgba(255,255,255,0.04); }
-    @media (max-width: 640px) {
-      .prizes-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
     /* PLEDGE LIST */
     #pledge-list {
       background: #0a1228;
@@ -779,152 +715,6 @@
       width: auto;
       margin: 0 auto 1rem;
       opacity: 0.55;
-    }
-
-    /* WINNER OVERLAY */
-    #winner-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(0,0,0,0.88);
-      align-items: center;
-      justify-content: center;
-    }
-    #winner-overlay.show { display: flex; }
-    #confetti-container {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 2001;
-    }
-    .confetti-piece {
-      position: absolute;
-      top: -24px;
-      animation: confettiFall linear forwards;
-    }
-    @keyframes confettiFall {
-      0%   { transform: translateY(0)    rotate(0deg);   opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-    }
-    .winner-box {
-      background: linear-gradient(145deg, #0a1535, #1a3a8a);
-      border: 2px solid var(--accent);
-      border-radius: 28px;
-      padding: 2.8rem 2.4rem 2.2rem;
-      max-width: 440px;
-      width: 90%;
-      text-align: center;
-      position: relative;
-      z-index: 2002;
-      animation: winnerPop 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
-      box-shadow: 0 0 80px rgba(245,158,11,0.35), 0 0 20px rgba(245,158,11,0.15);
-    }
-    @keyframes winnerPop {
-      from { transform: scale(0.4); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
-    }
-    .winner-trophy {
-      font-size: 4rem;
-      display: block;
-      margin-bottom: 0.4rem;
-      animation: trophyBounce 0.7s ease 0.4s both;
-    }
-    @keyframes trophyBounce {
-      0%   { transform: scale(0) rotate(-15deg); }
-      60%  { transform: scale(1.25) rotate(8deg); }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-    .winner-badge {
-      display: inline-block;
-      background: rgba(245,158,11,0.15);
-      border: 1px solid rgba(245,158,11,0.45);
-      color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.3rem 1.1rem;
-      border-radius: 100px;
-      margin-bottom: 0.9rem;
-    }
-    .winner-title {
-      font-size: 2.4rem;
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: -1.5px;
-      margin-bottom: 0.3rem;
-    }
-    .winner-name {
-      font-size: 1.1rem;
-      color: var(--accent);
-      font-weight: 700;
-      margin-bottom: 1.2rem;
-    }
-    .winner-number-box {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 14px;
-      padding: 0.75rem 1.2rem;
-      margin-bottom: 1.2rem;
-    }
-    .winner-number-label {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.2rem;
-    }
-    .winner-number {
-      font-size: 1.7rem;
-      font-weight: 900;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-    }
-    .winner-prize-box {
-      background: rgba(245,158,11,0.15);
-      border: 1px solid rgba(245,158,11,0.45);
-      border-radius: 14px;
-      padding: 0.6rem 1.2rem;
-      margin-bottom: 1rem;
-    }
-    .winner-prize-label {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.15rem;
-    }
-    .winner-prize-amount {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--accent);
-      letter-spacing: -1px;
-      line-height: 1.1;
-    }
-    .winner-desc {
-      color: rgba(255,255,255,0.65);
-      font-size: 0.92rem;
-      line-height: 1.7;
-      margin-bottom: 1.4rem;
-    }
-    .winner-desc strong { color: rgba(255,255,255,0.9); }
-    .btn-winner-close {
-      background: linear-gradient(135deg, #f59e0b, #fbbf24);
-      color: #1a1a1a;
-      font-weight: 800;
-      font-size: 1rem;
-      border: none;
-      border-radius: 12px;
-      padding: 0.9rem 2.8rem;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      letter-spacing: 0.02em;
-    }
-    .btn-winner-close:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(245,158,11,0.45);
     }
 
     /* EMPID ERROR */
@@ -1390,19 +1180,6 @@
   </div>
 </section>
 
-<!-- PRIZES STRIP -->
-<div class="prizes-strip">
-  <div class="prizes-strip-inner">
-    <div class="prizes-strip-title">🎁 잔여 상품 현황</div>
-    <div class="prizes-grid" id="prizes-grid">
-      <div class="prize-item"><div class="prize-item-label">10만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/1개</div></div>
-      <div class="prize-item"><div class="prize-item-label">5만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/2개</div></div>
-      <div class="prize-item"><div class="prize-item-label">3만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/30개</div></div>
-      <div class="prize-item"><div class="prize-item-label">1만원</div><div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:100%"></div></div><div class="prize-item-count"><strong>-</strong>/100개</div></div>
-    </div>
-  </div>
-</div>
-
 <!-- RESPECT REQUEST -->
 <section id="respect-request">
   <div class="container" style="text-align:center;">
@@ -1446,30 +1223,6 @@
 <a class="top-right-banner top-right-banner-pledge" href="#pledge-list">
   ✍️ 실시간 서약자 수 <strong id="banner-count">0</strong>명
 </a>
-
-<!-- WINNER OVERLAY -->
-<div id="confetti-container"></div>
-<div id="winner-overlay" role="dialog" aria-modal="true">
-  <div class="winner-box">
-    <span class="winner-trophy">🏆</span>
-    <div class="winner-badge">🎊 즉석 당첨 이벤트</div>
-    <h2 class="winner-title">당첨!</h2>
-    <p class="winner-name" id="winner-name-text"></p>
-    <div class="winner-prize-box">
-      <div class="winner-prize-label">당첨 상품</div>
-      <div class="winner-prize-amount" id="winner-prize-amount">🎁</div>
-    </div>
-    <div class="winner-number-box">
-      <div class="winner-number-label">당첨 번호 (수령 시 제시)</div>
-      <div class="winner-number" id="winner-number-text"></div>
-    </div>
-    <p class="winner-desc">
-      <strong>경영혁신Core</strong>로 이 화면을 캡처해서<br>
-      보내주시면 상품을 드립니다! 🎁
-    </p>
-    <button class="btn-winner-close" onclick="closeWinnerOverlay()">확인했습니다</button>
-  </div>
-</div>
 
 <!-- FOOTER -->
 <footer>
@@ -1537,28 +1290,12 @@
     }, 40);
   }
 
-  function renderPrizes(prizes) {
-    if (!prizes || !prizes.length) return;
-    const grid = document.getElementById('prizes-grid');
-    grid.innerHTML = prizes.map(p => {
-      const pct = p.total > 0 ? (p.remaining / p.total) * 100 : 0;
-      const soldOut = p.remaining === 0;
-      return `
-        <div class="prize-item${soldOut ? ' prize-soldout' : ''}">
-          <div class="prize-item-label">${p.label}</div>
-          <div class="prize-item-bar-wrap"><div class="prize-item-bar" style="width:${pct}%"></div></div>
-          <div class="prize-item-count"><strong>${p.remaining}</strong>/${p.total}개</div>
-        </div>`;
-    }).join('');
-  }
-
-  // 서약자 수 및 잔여 상품 갱신
+  // 서약자 수 갱신
   function fetchCount() {
     fetch(SHEET_URL)
       .then(r => r.json())
       .then(data => {
         animateCount(data.count || 0);
-        renderPrizes(data.prizes);
       })
       .catch(() => {});
   }
@@ -1619,52 +1356,10 @@
       document.getElementById('pledge-success').style.display = 'block';
       document.getElementById('success-name').textContent = name;
       animateCount(data.count || 0);
-      renderPrizes(data.prizes);
-
-      if (data.winner) {
-        setTimeout(() => showWinnerCelebration(name, data.winnerNum, data.winnerLabel), 700);
-      }
     } catch(e) {
       btn.disabled = false;
       btn.textContent = '서약합니다 ✓';
       alert('저장 중 오류가 발생했습니다. 다시 시도해 주세요.');
-    }
-  }
-
-  // ─── Winner celebration ───────────────────────────────────────────────
-  function showWinnerCelebration(name, winnerNum, winnerLabel) {
-    document.getElementById('winner-name-text').textContent = name + 'CP님, 당첨되셨습니다! 🎉';
-    document.getElementById('winner-number-text').textContent = winnerNum || 'WIN-' + Date.now().toString().slice(-5);
-    document.getElementById('winner-prize-amount').textContent = winnerLabel ? winnerLabel + ' 상품권 🎁' : '🎁';
-    document.getElementById('winner-overlay').classList.add('show');
-    launchConfetti();
-  }
-
-  function closeWinnerOverlay() {
-    document.getElementById('winner-overlay').classList.remove('show');
-    document.getElementById('confetti-container').innerHTML = '';
-  }
-
-  function launchConfetti() {
-    const colors = ['#f59e0b', '#fcd34d', '#10b981', '#1a56db', '#ef4444', '#8b5cf6', '#ffffff', '#34d399'];
-    const container = document.getElementById('confetti-container');
-    container.innerHTML = '';
-    for (let i = 0; i < 120; i++) {
-      const p = document.createElement('div');
-      p.className = 'confetti-piece';
-      const size = Math.random() * 10 + 6;
-      p.style.cssText = [
-        `left:${Math.random() * 100}%`,
-        `background:${colors[Math.floor(Math.random() * colors.length)]}`,
-        `width:${size}px`,
-        `height:${Math.random() > 0.5 ? size : size * 0.45}px`,
-        `border-radius:${Math.random() > 0.5 ? '50%' : '2px'}`,
-        `animation-duration:${(Math.random() * 2 + 1.8).toFixed(2)}s`,
-        `animation-delay:${(Math.random() * 1.6).toFixed(2)}s`,
-        `transform:rotate(${Math.floor(Math.random() * 360)}deg)`,
-        `opacity:0.92`
-      ].join(';');
-      container.appendChild(p);
     }
   }
 
